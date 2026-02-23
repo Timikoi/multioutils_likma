@@ -74,4 +74,40 @@
             <option value="m-km">Mètres → Kilomètres</option>
             <option value="kg-g">Kilogrammes → Grammes</option>
             <option value="g-kg">Grammes → Kilogrammes</option>
-            <option value="c-f">Celsius → Fahrenheit
+            <option value="c-f">Celsius → Fahrenheit</option>
+            <option value="f-c">Fahrenheit → Celsius</option>
+        </select>
+
+<button onclick="convertir()">Convertir</button>
+
+<p id="resultat"></p>
+</div>
+
+<a class="back" href="../index.html">← Retour à l’accueil</a>
+
+<script>
+    function convertir() {
+        let valeur = parseFloat(document.getElementById("valeur").value);
+        let type = document.getElementById("type").value;
+        let resultat = 0;
+
+        if (isNaN(valeur)) {
+            document.getElementById("resultat").innerText = "Veuillez entrer une valeur valide.";
+            return;
+        }
+
+        switch(type) {
+            case "km-m": resultat = valeur * 1000; break;
+            case "m-km": resultat = valeur / 1000; break;
+            case "kg-g": resultat = valeur * 1000; break;
+            case "g-kg": resultat = valeur / 1000; break;
+            case "c-f": resultat = (valeur * 9/5) + 32; break;
+            case "f-c": resultat = (valeur - 32) * 5/9; break;
+        }
+
+        document.getElementById("resultat").innerText = "Résultat : " + resultat;
+    }
+</script>
+
+</body>
+</html>
