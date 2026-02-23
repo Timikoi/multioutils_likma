@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mini Maps Likma</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #222;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Mini Maps Likma</h1>
+
+    <div id="map"></div>
+
+    <a class="back" href="../index.html">← Retour à l’accueil</a>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Position de départ : Rodez
+        var map = L.map('map').setView([44.3500, 2.5750], 13);
+
+        // Fond de carte OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Marqueur
+        L.marker([44.3500, 2.5750]).addTo(map)
+            .bindPopup("Rodez — Mini Maps Likma")
+            .openPopup();
+    </script>
+
+</body>
+</html>
