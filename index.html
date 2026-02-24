@@ -3,57 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <title>MultiOutils Likma</title>
+
     <style>
         body {
-            margin: 0;
-            padding: 0;
             font-family: Arial, sans-serif;
             background: #f5f5f5;
-            color: #222;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
+            padding: 20px;
             text-align: center;
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            color: #333;
+            margin-bottom: 20px;
         }
 
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            color: #555;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            margin: 10px;
-            border: 1px solid #222;
-            border-radius: 6px;
+        .tool-button {
+            display: block;
+            width: 250px;
+            margin: 10px auto;
+            padding: 12px;
+            background: #333;
+            color: white;
             text-decoration: none;
-            color: #222;
+            border-radius: 10px;
+            font-size: 18px;
             transition: 0.2s;
         }
 
-        .btn:hover {
-            background: #222;
+        .tool-button:hover {
+            background: #555;
+        }
+
+        /* Boîte de sauvegarde */
+        .save-box {
+            width: 300px;
+            margin: 30px auto;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            text-align: left;
+        }
+
+        .save-box button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #333;
             color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .save-box button:hover {
+            background: #555;
         }
     </style>
 </head>
+
 <body>
 
     <h1>MultiOutils Likma</h1>
-    <p>Bienvenue. Choisissez un outil pour commencer.</p>
 
-    <a class="btn" href="convertisseur/index.html">Convertisseur d’unités</a>
-    <a class="btn" href="minimap/minimap.html">Likma Navigation</a>
-    <a class="btn" href="calculatrice/calculatrice.html">Calculatrice</a>
-    <a class="btn" href="calendrier/calendrier.html">Calendrier</a>
+    <!-- Boutons vers les outils -->
+    <a class="tool-button" href="minimap/minimap.html"> Likma Navigation </a>
+    <a class="tool-button" href="calculatrice/calculatrice.html"> Calculatrice </a>
+    <a class="tool-button" href="convertisseur/convertisseur.html"> Convertisseur d'unités</a>
+    <a class="tool-button" href="calendrier/calendrier.html"> Calendrier Likma</a>
+
+    <!-- Zone de sauvegarde -->
+    <div class="save-box">
+        <h2>Sauvegarde Likma</h2>
+
+        <p><strong>Appareil :</strong> <span id="deviceName"></span></p>
+        <p><strong>Dernière utilisation :</strong> <span id="lastUse"></span></p>
+
+        <button onclick="resetLikma()">Effacer toutes les données</button>
+    </div>
+
+    <script>
+        function detectDevice() {
+            const ua = navigator.userAgent;
+
+            if (ua.includes("Windows")) return "PC Windows";
+            if (ua.includes("Mac")) return "MacOS";
+            if (ua.includes("Android")) return "Android";
+            if (ua.includes("iPhone")) return "iPhone";
+            return "Appareil inconnu";
+        }
+
+        function updateSaveInfo() {
+            const device = detectDevice();
+            document.getElementById("deviceName").textContent = device;
+
+            const last = localStorage.getItem("likmaLastUse") || "Jamais";
+            document.getElementById("lastUse").textContent = last;
+
+            const now = new Date().toLocaleString("fr-FR");
+            localStorage.setItem("likmaLastUse", now);
+        }
+
+        function resetLikma() {
+            if (confirm("Effacer toutes les données Likma sur cet appareil ?")) {
+                localStorage.clear();
+                alert("Toutes les données ont été supprimées !");
+                location.reload();
+            }
+        }
+
+        updateSaveInfo();
+    </script>
+
 </body>
 </html>
