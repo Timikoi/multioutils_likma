@@ -52,6 +52,29 @@
             background: #555;
         }
 
+        .history {
+            width: 260px;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .history h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
         .back {
             margin-top: 20px;
             display: inline-block;
@@ -107,6 +130,12 @@
         <button class="btn" style="width: 230px;" onclick="calculate()">=</button>
     </div>
 
+    <!-- HISTORIQUE -->
+    <div class="history" id="historyBox">
+        <h2>Historique</h2>
+        <!-- Les entrées apparaîtront ici -->
+    </div>
+
     <a class="back" href="../index.html">Retour à l'accueil</a>
 
     <script>
@@ -119,12 +148,27 @@
         }
 
         function calculate() {
+            const display = document.getElementById("display");
+            const expression = display.value;
+
             try {
-                const result = eval(document.getElementById("display").value);
-                document.getElementById("display").value = result;
+                const result = eval(expression);
+                display.value = result;
+
+                addToHistory(expression, result);
             } catch {
-                document.getElementById("display").value = "Erreur";
+                display.value = "Erreur";
             }
+        }
+
+        function addToHistory(expr, res) {
+            const history = document.getElementById("historyBox");
+
+            const entry = document.createElement("div");
+            entry.className = "entry";
+            entry.textContent = `${expr} = ${res}`;
+
+            history.appendChild(entry);
         }
     </script>
 
