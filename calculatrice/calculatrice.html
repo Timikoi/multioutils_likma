@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculatrice Likma</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .calculator {
+            width: 260px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        #display {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            text-align: right;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            width: 55px;
+            height: 55px;
+            margin: 5px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #555;
+        }
+
+        .history {
+            width: 260px;
+            margin: 20px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .history h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .entry {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .back {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Calculatrice Likma</h1>
+
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+
+        <br>
+
+        <button class="btn" onclick="press('7')">7</button>
+        <button class="btn" onclick="press('8')">8</button>
+        <button class="btn" onclick="press('9')">9</button>
+        <button class="btn" onclick="press('/')">÷</button>
+
+        <br>
+
+        <button class="btn" onclick="press('4')">4</button>
+        <button class="btn" onclick="press('5')">5</button>
+        <button class="btn" onclick="press('6')">6</button>
+        <button class="btn" onclick="press('*')">×</button>
+
+        <br>
+
+        <button class="btn" onclick="press('1')">1</button>
+        <button class="btn" onclick="press('2')">2</button>
+        <button class="btn" onclick="press('3')">3</button>
+        <button class="btn" onclick="press('-')">−</button>
+
+        <br>
+
+        <button class="btn" onclick="press('0')">0</button>
+        <button class="btn" onclick="press('.')">.</button>
+        <button class="btn" onclick="clearDisplay()">C</button>
+        <button class="btn" onclick="press('+')">+</button>
+
+        <br>
+
+        <button class="btn" style="width: 230px;" onclick="calculate()">=</button>
+    </div>
+
+    <!-- HISTORIQUE -->
+    <div class="history" id="historyBox">
+        <h2>Historique</h2>
+        <!-- Les entrées apparaîtront ici -->
+    </div>
+
+    <a class="back" href="../index.html">Retour à l'accueil</a>
+
+    <script>
+        function press(value) {
+            document.getElementById("display").value += value;
+        }
+
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        function calculate() {
+            const display = document.getElementById("display");
+            const expression = display.value;
+
+            try {
+                const result = eval(expression);
+                display.value = result;
+
+                addToHistory(expression, result);
+            } catch {
+                display.value = "Erreur";
+            }
+        }
+
+        function addToHistory(expr, res) {
+            const history = document.getElementById("historyBox");
+
+            const entry = document.createElement("div");
+            entry.className = "entry";
+            entry.textContent = `${expr} = ${res}`;
+
+            history.appendChild(entry);
+        }
+    </script>
+
+</body>
+</html>
