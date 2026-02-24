@@ -20,11 +20,11 @@
             margin-bottom: 20px;
         }
 
-        .tool-button {
+        .btn {
             display: block;
-            width: 250px;
-            margin: 10px auto;
-            padding: 12px;
+            width: 260px;
+            margin: 12px auto;
+            padding: 14px;
             background: #333;
             color: white;
             text-decoration: none;
@@ -33,32 +33,14 @@
             transition: 0.2s;
         }
 
-        .tool-button:hover {
+        .btn:hover {
             background: #555;
         }
 
-        .save-box {
-            width: 300px;
-            margin: 30px auto;
-            padding: 15px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            text-align: left;
-        }
-
-        .save-box button {
-            margin-top: 10px;
-            padding: 10px 15px;
-            background: #333;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .save-box button:hover {
-            background: #555;
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #777;
         }
     </style>
 </head>
@@ -67,52 +49,14 @@
 
     <h1>MultiOutils Likma</h1>
 
-    <a class="tool-button" href="minimap/minimap.html">Likma Navigation</a>
-    <a class="tool-button" href="calculatrice/calculatrice.html">Calculatrice</a>
-    <a class="tool-button" href="convertisseur/convertisseur.html">Convertisseur d'unités</a>
-    <a class="tool-button" href="agenda/agenda.html">Calendrier Likma</a>
+    <a class="btn" href="minimap/minimap.html">Likma Navigation</a>
+    <a class="btn" href="calculatrice/calculatrice.html">Calculatrice</a>
+    <a class="btn" href="convertisseur/convertisseur.html">Convertisseur d'unités</a>
+    <a class="btn" href="agenda/agenda.html">Calendrier Likma</a>
 
-    <div class="save-box">
-        <h2>Sauvegarde Likma</h2>
-
-        <p><strong>Appareil :</strong> <span id="deviceName"></span></p>
-        <p><strong>Dernière utilisation :</strong> <span id="lastUse"></span></p>
-
-        <button onclick="resetLikma()">Effacer toutes les données</button>
-    </div>
-
-    <script>
-        function detectDevice() {
-            const ua = navigator.userAgent;
-
-            if (ua.includes("Windows")) return "PC Windows";
-            if (ua.includes("Mac")) return "MacOS";
-            if (ua.includes("Android")) return "Android";
-            if (ua.includes("iPhone")) return "iPhone";
-            return "Appareil inconnu";
-        }
-
-        function updateSaveInfo() {
-            const device = detectDevice();
-            document.getElementById("deviceName").textContent = device;
-
-            const last = localStorage.getItem("likmaLastUse") || "Jamais";
-            document.getElementById("lastUse").textContent = last;
-
-            const now = new Date().toLocaleString("fr-FR");
-            localStorage.setItem("likmaLastUse", now);
-        }
-
-        function resetLikma() {
-            if (confirm("Effacer toutes les données Likma sur cet appareil ?")) {
-                localStorage.clear();
-                alert("Toutes les données ont été supprimées !");
-                location.reload();
-            }
-        }
-
-        updateSaveInfo();
-    </script>
+    <footer>
+        MultiOutils Likma © 2026 — Créé par Iyad
+    </footer>
 
 </body>
 </html>
