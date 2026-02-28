@@ -46,6 +46,16 @@
 </head>
 
 <body>
+<script src="compte/compte.js"></script>    
+<script>
+    const user = getLoggedUser();
+    if (user) {
+        document.write("<h3>Bienvenue, " + user.pseudo + " !</h3>");
+        document.write('<button onclick="logout(); location.reload();">Déconnexion</button>');
+    } else {
+        document.write("<h3>Vous n'êtes pas connecté.</h3>");
+    }
+</script>  
 
     <h1>MultiOutils Likma</h1>
 
