@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Calendrier Likma</title>
+    <title>Convertisseur d'unités</title>
 
     <style>
         body {
@@ -17,7 +17,7 @@
             color: #333;
         }
 
-        .calendar {
+        .box {
             width: 300px;
             margin: 20px auto;
             background: white;
@@ -26,65 +26,25 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+        select, input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
 
-        .header button {
+        button {
+            padding: 10px 20px;
             background: #333;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
         }
 
-        .header button:hover {
+        button:hover {
             background: #555;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            padding: 5px;
-            color: #555;
-        }
-
-        td {
-            width: 14%;
-            height: 40px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        td:hover {
-            background: #ddd;
-        }
-
-        .today {
-            background: #333;
-            color: white;
-        }
-
-        .event-day {
-            background: #ffcc66;
-        }
-
-        .event-box {
-            width: 300px;
-            margin: 20px auto;
-            background: white;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.2);
-            text-align: left;
         }
 
         .back {
@@ -105,168 +65,49 @@
 
 <body>
 
-    <h1>Calendrier Likma</h1>
+    <h1>Convertisseur d'unités Likma</h1>
 
-    <div class="calendar">
-        <div class="header">
-            <button onclick="prevMonth()">&lt;</button>
-            <h2 id="monthYear"></h2>
-            <button onclick="nextMonth()">&gt;</button>
-        </div>
+    <div class="box">
+        <input type="number" id="value" placeholder="Valeur à convertir">
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Lun</th>
-                    <th>Mar</th>
-                    <th>Mer</th>
-                    <th>Jeu</th>
-                    <th>Ven</th>
-                    <th>Sam</th>
-                    <th>Dim</th>
-                </tr>
-            </thead>
-            <tbody id="calendarBody"></tbody>
-        </table>
-    </div>
+        <select id="type">
+            <option value="km-m">Kilomètres → Mètres</option>
+            <option value="m-km">Mètres → Kilomètres</option>
+            <option value="kg-g">Kilogrammes → Grammes</option>
+            <option value="g-kg">Grammes → Kilogrammes</option>
+            <option value="c-f">Celsius → Fahrenheit</option>
+            <option value="f-c">Fahrenheit → Celsius</option>
+        </select>
 
-    <div class="event-box">
-        <h3 id="selectedDate">Sélectionnez un jour</h3>
-        <textarea id="eventText" placeholder="Ajouter un événement..." style="width:100%; height:60px;"></textarea>
-        <button onclick="addEvent()">Ajouter</button>
-        <div id="eventList"></div>
+        <button onclick="convert()">Convertir</button>
+
+        <h3 id="resultat"></h3>
     </div>
 
     <a class="back" href="../index.html">Retour à l'accueil</a>
 
     <script>
-        let currentDate = new Date();
+        function convert() {
+            const val = parseFloat(document.getElementById("value").value);
+            const type = document.getElementById("type").value;
+            let res = 0;
 
-        // Chargement automatique des événements
-        let events = JSON.parse(localStorage.getItem("likmaEvents") || "{}");
-
-        function saveEvents() {
-            localStorage.setItem("likmaEvents", JSON.stringify(events));
-        }
-
-        function renderCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-
-            document.getElementById("monthYear").textContent =
-                currentDate.toLocaleString("fr-FR", { month: "long", year: "numeric" });
-
-            const firstDay = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            const calendarBody = document.getElementById("calendarBody");
-            calendarBody.innerHTML = "";
-
-            let row = document.createElement("tr");
-            let dayIndex = (firstDay + 6) % 7;
-
-            for (let i = 0; i < dayIndex; i++) {
-                row.appendChild(document.createElement("td"));
+            if (isNaN(val)) {
+                document.getElementById("resultat").textContent = "Entrez une valeur valide.";
+                return;
             }
 
-            for (let day = 1; day <= daysInMonth; day++) {
-                const cell = document.createElement("td");
-                cell.textContent = day;
-
-                const dateKey = `${year}-${month + 1}-${day}`;
-
-                if (events[dateKey]) {
-                    cell.classList.add("event-day");
-                }
-
-                const today = new Date();
-                if (
-                    day === today.getDate() &&
-                    month === today.getMonth() &&
-                    year === today.getFullYear()
-                ) {
-                    cell.classList.add("today");
-                }
-
-                cell.onclick = () => selectDate(dateKey);
-
-                row.appendChild(cell);
-
-                if (row.children.length === 7) {
-                    calendarBody.appendChild(row);
-                    row = document.createElement("tr");
-                }
+            switch(type) {
+                case "km-m": res = val * 1000; break;
+                case "m-km": res = val / 1000; break;
+                case "kg-g": res = val * 1000; break;
+                case "g-kg": res = val / 1000; break;
+                case "c-f": res = (val * 9/5) + 32; break;
+                case "f-c": res = (val - 32) * 5/9; break;
             }
 
-            calendarBody.appendChild(row);
+            document.getElementById("resultat").textContent = "Résultat : " + res;
         }
-
-        function prevMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        }
-
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        }
-
-        let selectedKey = null;
-
-        function selectDate(key) {
-            selectedKey = key;
-            document.getElementById("selectedDate").textContent = "Événements du " + key;
-            updateEventList();
-        }
-
-        function addEvent() {
-            if (!selectedKey) return;
-
-            const text = document.getElementById("eventText").value;
-            if (!text) return;
-
-            if (!events[selectedKey]) events[selectedKey] = [];
-            events[selectedKey].push(text);
-
-            saveEvents();
-
-            document.getElementById("eventText").value = "";
-            updateEventList();
-            renderCalendar();
-        }
-
-        function updateEventList() {
-            const list = document.getElementById("eventList");
-            list.innerHTML = "";
-
-            if (!events[selectedKey]) return;
-
-            events[selectedKey].forEach((ev, i) => {
-                const div = document.createElement("div");
-                div.textContent = ev;
-                div.style.margin = "5px 0";
-
-                const del = document.createElement("button");
-                del.textContent = "Supprimer";
-                del.style.marginLeft = "10px";
-                del.onclick = () => {
-                    events[selectedKey].splice(i, 1);
-
-                    if (events[selectedKey].length === 0) {
-                        delete events[selectedKey];
-                    }
-
-                    saveEvents();
-                    updateEventList();
-                    renderCalendar();
-                };
-
-                div.appendChild(del);
-                list.appendChild(div);
-            });
-        }
-
-        renderCalendar();
     </script>
 
 </body>
