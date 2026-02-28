@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Créer un compte</title>
+</head>
+
+<body>
+    <h1>Créer un compte</h1>
+
+    <input id="email" type="email" placeholder="Email"><br><br>
+    <input id="pseudo" type="text" placeholder="Pseudo"><br><br>
+    <input id="password" type="password" placeholder="Mot de passe"><br><br>
+
+    <button onclick="register()">Créer le compte</button>
+
+    <p id="msg"></p>
+
+    <a href="connexion.html">Déjà un compte ? Connexion</a><br>
+    <a href="../index.html">Retour</a>
+
+    <script src="compte.js"></script>
+
+    <script>
+        function register() {
+            const email = document.getElementById("email").value;
+            const pseudo = document.getElementById("pseudo").value;
+            const password = document.getElementById("password").value;
+
+            if (!email || !pseudo || !password) {
+                document.getElementById("msg").textContent = "Veuillez remplir tous les champs.";
+                return;
+            }
+
+            const ok = saveAccount(email, pseudo, password);
+
+            if (!ok) {
+                document.getElementById("msg").textContent = "Ce compte existe déjà.";
+                return;
+            }
+
+            document.getElementById("msg").textContent = "Compte créé ! Vous pouvez vous connecter.";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion</title>
+</head>
+
+<body>
+    <h1>Connexion</h1>
+
+    <input id="email" type="email" placeholder="Email"><br><br>
+    <input id="password" type="password" placeholder="Mot de passe"><br><br>
+
+    <button onclick="connect()">Se connecter</button>
+
+    <p id="msg"></p>
+
+    <a href="inscription.html">Créer un compte</a><br>
+    <a href="../index.html">Retour</a>
+
+    <script src="compte.js"></script>
+
+    <script>
+        function connect() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const ok = login(email, password);
+
+            if (!ok) {
+                document.getElementById("msg").textContent = "Email ou mot de passe incorrect.";
+                return;
+            }
+
+            window.location.href = "../index.html";
+        }
+    </script>
+</body>
+</html>
