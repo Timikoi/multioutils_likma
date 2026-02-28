@@ -13,6 +13,23 @@
             margin: 0;
             padding: 20px;
             text-align: center;
+            .btn-account {
+    display: block;
+    width: 260px;
+    margin: 12px auto;
+    padding: 14px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 18px;
+    transition: 0.2s;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+.btn-account:hover {
+    background: #0056c7;
+}
         }
 
         h1 {
@@ -46,14 +63,23 @@
 </head>
 
 <body>
-
-    <h1>MultiOutils Likma</h1>
+<script src="compte/compte.js"></script>    
+<script>
+    const user = getLoggedUser();
+    if (user) {
+        document.write("<h3>Bienvenue, " + user.pseudo + " !</h3>");
+        document.write('<button onclick="logout(); location.reload();">Déconnexion</button>');
+    } else {
+        document.write("<h3>Vous n'êtes pas connecté.</h3>");
+    }
+</script>  
+    <h1>MultiOutils Likma</h1>         <a class="btn account" href="compte/connexion.html">Connexion</a> <a class="btn account" href="compte/inscription.html">Créer un compte</a>
 
     <a class="btn" href="minimap/minimap.html">Likma Navigation</a>
     <a class="btn" href="calculatrice/calculatrice.html">Calculatrice</a>
     <a class="btn" href="convertisseur/convertisseur.html">Convertisseur d'unités</a>
     <a class="btn" href="calendrier/calendrier.html">Calendrier Likma</a>
-
+    
     <footer>
         MultiOutils Likma © 2026 — Créé par Iyad
     </footer>
