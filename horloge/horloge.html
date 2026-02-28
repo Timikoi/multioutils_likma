@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Horloge mondiale Likma</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .clock-box {
+            width: 300px;
+            margin: 15px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        .city {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .time {
+            font-size: 26px;
+            margin-top: 5px;
+        }
+
+        .back {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Horloge mondiale Likma</h1>
+
+    <div id="clocks"></div>
+
+    <a class="back" href="../index.html">Retour à l'accueil</a>
+
+    <script>
+        const cities = [
+            { name: "Paris", zone: "Europe/Paris" },
+            { name: "New York", zone: "America/New_York" },
+            { name: "Tokyo", zone: "Asia/Tokyo" },
+            { name: "Londres", zone: "Europe/London" },
+            { name: "Sydney", zone: "Australia/Sydney" }
+        ];
+
+        function updateClocks() {
+            const container = document.getElementById("clocks");
+            container.innerHTML = "";
+
+            cities.forEach(city => {
+                const time = new Date().toLocaleTimeString("fr-FR", {
+                    timeZone: city.zone,
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                });
+
+                container.innerHTML += `
+                    <div class="clock-box">
+                        <div class="city">${city.name}</div>
+                        <div class="time">${time}</div>
+                    </div>
+                `;
+            });
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks();
+    </script>
+
+</body>
+</html>
